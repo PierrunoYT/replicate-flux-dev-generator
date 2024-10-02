@@ -1,4 +1,4 @@
-# Replicate FLUX DEV Image Generator
+# Replicate FLUX DEV Generator
 
 This project is a Gradio app that utilizes the FLUX DEV model from Replicate to generate images based on text prompts. It provides an interactive web interface for easy image generation with various customizable parameters.
 
@@ -11,8 +11,8 @@ This project is a Gradio app that utilizes the FLUX DEV model from Replicate to 
 
 1. Clone this repository:
    ```
-   git clone https://github.com/YourUsername/replicate-flux-dev-image-generator.git
-   cd replicate-flux-dev-image-generator
+   git clone https://github.com/PierrunoYT/replicate-flux-dev-generator.git
+   cd replicate-flux-dev-generator
    ```
 
 2. (Recommended) Create and activate a virtual environment:
