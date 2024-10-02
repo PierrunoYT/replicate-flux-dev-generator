@@ -108,4 +108,4 @@ Feel free to fork this repository and submit pull requests with any improvements
 
 ## License
 
-This project is open-source and available under the [MIT License](LICENSE).
+This project is open-source and available under the [MIT License](LICENSE). Copyright (c) 2024 PierrunoYT.
