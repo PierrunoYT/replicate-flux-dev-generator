@@ -28,12 +28,28 @@ def base64_to_temp_file(base64_string):
         print(f"Error creating temp file: {str(e)}")
         return None
 
-def generate_image(prompt, guidance):
+def generate_image(prompt, aspect_ratio, image, prompt_strength, num_outputs, num_inference_steps, guidance, seed, output_format, output_quality, disable_safety_checker, go_fast, megapixels):
     try:
         input = {
             "prompt": prompt,
-            "guidance": guidance
+            "aspect_ratio": aspect_ratio,
+            "num_outputs": num_outputs,
+            "num_inference_steps": num_inference_steps,
+            "guidance": guidance,
+            "go_fast": go_fast,
+            "megapixels": megapixels,
+            "output_format": output_format,
+            "output_quality": output_quality,
+            "disable_safety_checker": disable_safety_checker
         }
+
+        # Add optional parameters only if they are provided
+        if image:
+            input["image"] = image
+        if prompt_strength is not None:
+            input["prompt_strength"] = prompt_strength
+        if seed is not None:
+            input["seed"] = seed
 
         output = replicate.run(
             "black-forest-labs/flux-dev",
@@ -67,7 +83,18 @@ iface = gr.Interface(
     fn=generate_image,
     inputs=[
         gr.Textbox(label="Prompt", value="black forest gateau cake spelling out the words \"FLUX DEV\", tasty, food photography, dynamic shot"),
-        gr.Slider(1, 20, value=3.5, step=0.1, label="Guidance Scale"),
+        gr.Dropdown(["1:1", "16:9", "21:9", "3:2", "2:3", "4:5", "5:4", "3:4", "4:3", "9:16", "9:21"], label="Aspect Ratio", value="1:1"),
+        gr.Image(label="Input Image (optional)", type="filepath"),
+        gr.Slider(0, 1, value=0.8, step=0.01, label="Prompt Strength"),
+        gr.Slider(1, 4, value=1, step=1, label="Number of Outputs"),
+        gr.Slider(1, 50, value=28, step=1, label="Number of Inference Steps"),
+        gr.Slider(0, 10, value=3, step=0.1, label="Guidance Scale"),
+        gr.Number(label="Seed (optional)", precision=0),
+        gr.Dropdown(["webp", "jpg", "png"], label="Output Format", value="webp"),
+        gr.Slider(0, 100, value=80, step=1, label="Output Quality"),
+        gr.Checkbox(label="Disable Safety Checker", value=False),
+        gr.Checkbox(label="Go Fast", value=True),
+        gr.Dropdown(["1", "0.25"], label="Megapixels", value="1"),
     ],
     outputs=[gr.Image(type="filepath") for _ in range(4)],
     title="FLUX DEV Image Generator",
